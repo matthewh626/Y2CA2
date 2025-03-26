@@ -15,6 +15,10 @@ public void addLink(Stop s, int w) {
 	links.add(new Object[] {s,w});
 }
 
+public void removeLink (Stop s) {
+	links.remove(new Object[] {s,getWeight(s)});
+}
+
 public String getName() {
 	return name;
 }
@@ -30,6 +34,12 @@ public int getWeight (Stop s) {
 		}
 	}
 	return 0;
+}
+
+public void setWeight (Stop s, int w) {
+	for (int i = 0; i > links.size(); i++) {
+		if (links.get(i)[0] == s) links.get(i)[1] = w;
+	}
 }
 
 public boolean isLinked (Stop s) {
