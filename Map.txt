@@ -30,10 +30,10 @@ boolean remStop(String name)
 
 // these methods will try to find a path via depth first search
 Path findDFSPath(Stop origin, Stop destionation) Throws DestionationUnreachableException
-Path findDFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) Throws DestionationUnreachableException
+Path findDFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) throws DestionationUnreachableException
 
 // these methods will try to find a path via breath first search
-Path findBFSPath(Stop origin, Stop destionation) Throws DestionationUnreachableException
-Path findBFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) Throws DestionationUnreachableException
+Path findBFSPath(Stop origin, Stop destionation) throws DestionationUnreachableException
+Path findBFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) throws DestionationUnreachableException
 
 }
