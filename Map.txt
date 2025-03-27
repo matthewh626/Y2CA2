@@ -1,0 +1,39 @@
+// Class layout of the Map class that handles the logic of finding routes and using map data
+//
+// i will try to give things meaningfull names, if you think something needs more description leave a comment "more description needed"
+// and (assuming development is still active) i will try to add the extra info
+//
+// if you want any changes to the avaiable methods and fields modify this file and (assuming development is still active)
+// i will try to impliment any requested changes, rejected changes will be comented and have the reason appended.
+// requests should be in the same format as the exsisting methods and fields.
+
+class Map{
+Constructor (String path) // will construct map from the exel file
+
+SubClass Path{
+Constructor (Stop[])
+
+Stop[] getStops()
+int getTotalWeight()
+boolean passes(Stop s)
+boolean passes(String name)
+}
+
+Exception DestionationUnreachableException // indicates that the path finding couldnt find a valid path from the origin to the destionation
+// error message will be in the format "Unable to find path between <origin> and <destionation>"
+
+Stop getStop(String name) // getters and setters for stops will referance them by name
+Stop[] getAllStops()
+boolean stopExists(String name)
+boolean addStop(String name) // boolean returns indicate sucess
+boolean remStop(String name)
+
+// these methods will try to find a path via depth first search
+Path findDFSPath(Stop origin, Stop destionation) Throws DestionationUnreachableException
+Path findDFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) Throws DestionationUnreachableException
+
+// these methods will try to find a path via breath first search
+Path findBFSPath(Stop origin, Stop destionation) Throws DestionationUnreachableException
+Path findBFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) Throws DestionationUnreachableException
+
+}
