@@ -4,19 +4,32 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Stop {
-ArrayList<Object[]> links = new ArrayList<Object[]>();
+ArrayList<Link> links = new ArrayList<Link>();
 String name;
+
+	public class Link{
+		int weight;
+		int line;
+		Stop dest;
+		public Link(int weight, int line, Stop dest) {
+			this.weight = weight;
+			this.line = line;
+			this.dest = dest;
+		}		
+	}
 
 public Stop (String n) {
 	name=n;
 }
 
-public void addLink(Stop s, int w) {
-	links.add(new Object[] {s,w});
+public void addLink(Stop s, int w, int l) {
+	links.add(new Link(w, l, s));
 }
 
 public void removeLink (Stop s) {
-	links.remove(new Object[] {s,getWeight(s)});
+	for (int i = 0; i > links.size(); i++) {
+		if (links.get(i).dest.equals(s)) links.remove(i);
+	}
 }
 
 public String getName() {
@@ -28,9 +41,9 @@ public void setName(String name) {
 }
 
 public int getWeight (Stop s) {
-	for (Object[] l : links) {
-		if (Arrays.asList(l).contains(s)) {
-			return (int) l[1];
+	for (Link l : links) {
+		if (l.dest.equals(s)) {
+			return l.weight;
 		}
 	}
 	return 0;
@@ -38,13 +51,13 @@ public int getWeight (Stop s) {
 
 public void setWeight (Stop s, int w) {
 	for (int i = 0; i > links.size(); i++) {
-		if (links.get(i)[0] == s) links.get(i)[1] = w;
+		if (links.get(i).dest.equals(s)) links.get(i).weight=w ;
 	}
 }
 
 public boolean isLinked (Stop s) {
-	for (Object[] l : links) {
-		if (Arrays.asList(l).contains(s)) {
+	for (Link l : links) {
+		if (l.dest.equals(s)) {
 			return true;
 		}
 	}

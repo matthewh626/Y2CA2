@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public class Map {
 	ArrayList<Stop> stops = new ArrayList<Stop>();
 	
+	public Map(String filePath) {
+		
+	}
+	
 	public class Path{
 		Stop[] stops;
 		
