@@ -31,7 +31,7 @@ public class Main extends Application
 
 
 // --- MARKING SCHEME ---
-//todo• Custom graph data structure/classes = 10%
+//todo• Custom graph data structure/classes = 10% Done in Map and its subclasses
 //todo• Generate any single valid route between two stations = 10%
 //todo• Generate multiple valid route permutations using DFS = 10%
 //todo• Shortest route using Dijkstra’s algorithm = 10%

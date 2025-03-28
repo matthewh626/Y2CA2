@@ -23,7 +23,7 @@ public class Map {
 			br.close();																			//the second with a default
 		} catch (Exception e) {e.printStackTrace();}											//weight of 1.
 		
-	}
+	} 
 	
 	public class Path{
 		Stop[] stops;
