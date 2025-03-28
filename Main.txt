@@ -1,0 +1,7 @@
+// Class layout of Main class that manages JavaFX view(s) and the map's dynamic display
+
+// Class Main()
+// Controller for main Map View
+
+// class PhysicsStop()
+// for the dynamic graph view, may or may not be used in final version
