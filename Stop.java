@@ -8,10 +8,10 @@ ArrayList<Link> links = new ArrayList<Link>();
 String name;
 
 	public class Link{
+		Stop dest;
 		int weight;
 		int line;
-		Stop dest;
-		public Link(int weight, int line, Stop dest) {
+		public Link(Stop dest, int line, int weight) {
 			this.weight = weight;
 			this.line = line;
 			this.dest = dest;
@@ -23,7 +23,7 @@ public Stop (String n) {
 }
 
 public void addLink(Stop s, int w, int l) {
-	links.add(new Link(w, l, s));
+	links.add(new Link(s, l, w));
 }
 
 public void removeLink (Stop s) {
