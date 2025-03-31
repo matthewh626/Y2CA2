@@ -77,12 +77,41 @@ public class Map {
 		return stops.remove(getStop(name));
 	}
 	
-	public Path findDFSPath(Stop origin, Stop destionation) throws DestionationUnreachableException{
+	public Path findDFSPath(Stop origin, Stop destination) throws DestionationUnreachableException{
+		if (origin.isLinked(destination)) return (new Path(new Stop[]{origin, destination})); // early return point for if origin and destination are adjacent
+		ArrayList<Stop> candidate = new ArrayList<Stop>();
+		ArrayList<Integer> tree = new ArrayList<Integer>();
+		int depth = 0; // this is counting back from the end of the array list
+		candidate.add(origin);
+		while (!candidate.getLast().isLinked(destination)) {
+		while (candidate.getLast().hasLinks()) { // this loop does the main plunge
+			tree.add(0);
+			candidate.add(candidate.getLast().getLink(tree.get(depth)).dest);
+			depth++;
+			if (candidate.getLast().isLinked(destination)) return new Path((Stop[])candidate.toArray()); //early return for if first plunge hits the destination
+		}
+			candidate.removeLast(); //these three take a step back
+			tree.removeLast();
+			depth--;
+			if(tree.get(depth)==candidate.getLast().links.size()-1) { //if the current stop has all of its links checked take a second step back
+				candidate.removeLast(); 
+				tree.removeLast();
+				depth--;
+		}
+			else tree.set(depth, tree.get(depth)+1);
+		}
+		
+		System.out.println("Warning: pathfinder is returning null, this code should never be reached");
 		return null;
 	}
 	
 	public Path findDFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) throws DestionationUnreachableException{
 		return null;
+	}
+	
+	public Path findDFSPathHitting(Stop origin, Stop destionation, Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException{
+		return null;
+		
 	}
 	
 	public Path findBFSPath(Stop origin, Stop destionation) throws DestionationUnreachableException {
@@ -92,6 +121,12 @@ public class Map {
 	public Path findBFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) throws DestionationUnreachableException{
 		return null;
 	}
+	
+	public Path findBFSPathHitting(Stop origin, Stop destionation,Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException{
+		return null;
+		
+	}
+
 	
 }// end of Map Class
 

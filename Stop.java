@@ -26,10 +26,18 @@ public void addLink(Stop s, int w, int l) {
 	links.add(new Link(s, l, w));
 }
 
+public Link getLink(int ind) {
+	return links.get(ind);
+}
+
 public void removeLink (Stop s) {
 	for (int i = 0; i > links.size(); i++) {
 		if (links.get(i).dest.equals(s)) links.remove(i);
 	}
+}
+
+public boolean hasLinks() {
+	return links.isEmpty();
 }
 
 public String getName() {
