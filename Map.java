@@ -12,6 +12,7 @@ public class Map {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(filePath));
 			String line;
+			br.readLine(); // this is to toss the line with the column titles
 			while ((line = br.readLine()) != null) {											//this loop reads a line from the
 		        String[] values = line.split(",");												//csv file, splits it at commas
 		        if (!stopExsists(values[0])) addStop(values[0]);								//checks if both the start and 
@@ -44,7 +45,7 @@ public class Map {
 		public boolean passes(String name) {
 			boolean res = false;
 			for (Stop s : stops) {
-				res = res || s.getName()==name;
+				res = res || s.getName().equalsIgnoreCase(name);
 			}
 			return res;
 		}
@@ -53,7 +54,7 @@ public class Map {
 	
 	public Stop getStop(String name) {
 		for (Stop s : stops) {
-			if (s.getName()==name) return s;
+			if (s.getName().equalsIgnoreCase(name)) return s;
 		}
 		return null;
 	}
@@ -64,7 +65,7 @@ public class Map {
 	
 	public boolean stopExsists(String name) {
 		for (Stop s : stops) {
-			if (s.getName()==name) return true;
+			if (s.getName().equalsIgnoreCase(name)) return true;
 		}
 		return false;
 	}
@@ -88,7 +89,7 @@ public class Map {
 			tree.add(0);
 			candidate.add(candidate.getLast().getLink(tree.get(depth)).dest);
 			depth++;
-			if (candidate.getLast().isLinked(destination)) return new Path((Stop[])candidate.toArray()); //early return for if first plunge hits the destination
+			if (candidate.getLast().isLinked(destination)) return new Path(candidate.toArray(new Stop[candidate.size()])); //early return for if first plunge hits the destination
 		}
 			candidate.removeLast(); //these three take a step back
 			tree.removeLast();

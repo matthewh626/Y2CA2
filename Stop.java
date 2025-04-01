@@ -37,7 +37,7 @@ public void removeLink (Stop s) {
 }
 
 public boolean hasLinks() {
-	return links.isEmpty();
+	return !links.isEmpty();
 }
 
 public String getName() {
