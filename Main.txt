@@ -1,7 +1,10 @@
 // Class layout of Main class that manages JavaFX view(s) and the map's dynamic display
 
 // Class Main()
-// Controller for main Map View
+// Application Start, handles JavaFX shit
+
+// class MapViewController()
+// for the main  map view, will handle drawing lines between selected stops while planning routes
 
 // class PhysicsStop()
 // for the dynamic graph view, may or may not be used in final version

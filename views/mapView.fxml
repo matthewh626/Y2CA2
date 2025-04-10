@@ -6,5 +6,19 @@
 <AnchorPane prefHeight="360.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Main">
    <children>
       <ScrollPane layoutX="440.0" prefHeight="200.0" prefWidth="200.0" />
+      <TabPane prefHeight="360.0" prefWidth="440.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Static Map View">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+          <Tab text="Web Map View">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
    </children>
 </AnchorPane>
