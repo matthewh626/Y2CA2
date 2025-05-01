@@ -13,14 +13,14 @@ public class Map {
 			BufferedReader br = new BufferedReader(new FileReader(filePath));
 			String line;
 			br.readLine(); // this is to toss the line with the column titles
-			while ((line = br.readLine()) != null) {											//this loop reads a line from the
-		        String[] values = line.split(",");												//csv file, splits it at commas
-		        if (!stopExsists(values[0])) addStop(values[0]);								//checks if both the start and 
-		        if (!stopExsists(values[1])) addStop(values[1]);								//destination are existing stops
-		        getStop(values[0]).addLink(getStop(values[1]), 1, Integer.parseInt(values[2]));	//and adds them if not, it then 
-			}																					//adds a link from the first to
-			br.close();																			//the second with a default
-		} catch (Exception e) {e.printStackTrace();}											//weight of 1.
+			while ((line = br.readLine()) != null) {																			//this loop reads a line from the
+		        String[] values = line.split(",");																				//csv file, splits it at commas
+		        if (!stopExsists(values[0])) addStop(values[0]);																//checks if both the start and 
+		        if (!stopExsists(values[1])) addStop(values[1]);																//destination are existing stops
+		        getStop(values[0]).addLink(getStop(values[1]), 1, Integer.parseInt(values[2]),Integer.parseInt(values[4]));		//and adds them if not, it then 
+			}																													//adds a link from the first to
+			br.close();																											//the second with a default
+		} catch (Exception e) {e.printStackTrace();}																			//weight of 1.
 		
 	} 
 	
