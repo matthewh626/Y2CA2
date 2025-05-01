@@ -1,0 +1,12 @@
+class Stop{
+
+subclass Link{
+Constructor (Stop, int line, int weight, int len)
+}
+
+int getWeight (Stop s)
+void setWeight (Stop s, int w)
+boolean isLinked (Stop s)
+Link getLink(int i OR Stop s) //overloaded method can find link object by either index or by destionation stop 
+
+}

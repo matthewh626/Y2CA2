@@ -10,10 +10,12 @@ String name;
 		Stop dest;
 		int weight;
 		int line;
-		public Link(Stop dest, int line, int weight) {
+		int len;
+		public Link(Stop dest, int line, int weight, int len) {
 			this.weight = weight;
 			this.line = line;
 			this.dest = dest;
+			this.len = len;
 		}		
 	}
 
@@ -21,12 +23,19 @@ public Stop (String n) {
 	name=n;
 }
 
-public void addLink(Stop s, int w, int l) {
-	links.add(new Link(s, l, w));
+public void addLink(Stop s, int w, int l, int ln) {
+	links.add(new Link(s, l, w, ln));
 }
 
 public Link getLink(int ind) {
 	return links.get(ind);
+}
+
+public Link getLink(Stop s) {
+	for (int i = 0; i > links.size(); i++) {
+		if (links.get(i).dest.equals(s)) return links.get(i);
+	}
+	return null;
 }
 
 public void removeLink (Stop s) {
