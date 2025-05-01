@@ -1,4 +1,4 @@
-package application;
+package com.ca2.routefinder;
 
 public class DestionationUnreachableException extends Exception {
 

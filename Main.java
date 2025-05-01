@@ -1,4 +1,4 @@
-package application;
+package com.ca2.routefinder;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

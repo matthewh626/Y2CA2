@@ -1,4 +1,4 @@
-package application;
+package com.ca2.routefinder;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeAll;
