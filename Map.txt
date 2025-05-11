@@ -24,6 +24,7 @@ Exception DestionationUnreachableException // indicates that the path finding co
 
 Stop getStop(String name) // getters and setters for stops will referance them by name
 Stop[] getAllStops()
+// TODO request - String[] getAllStopNames() // return array of all stop names, for use in the choicebox selection in JavaFX
 boolean stopExists(String name)
 boolean addStop(String name) // boolean returns indicate sucess
 boolean remStop(String name)
@@ -32,10 +33,11 @@ boolean remStop(String name)
 Path findDFSPath(Stop origin, Stop destionation) Throws DestionationUnreachableException
 Path findDFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) throws DestionationUnreachableException
 Path findDFSPathHitting(Stop origin, Stop destionation, Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException
+TODO findDFSPathOnLine(Stop origin, Stop destination, int line) throws DestionationUnreachableException
 
 // these methods will try to find a path via breath first search, and will be optimised for performance
 Path findBFSPath(Stop origin, Stop destionation) throws DestionationUnreachableException
 Path findBFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) throws DestionationUnreachableException
 Path findBFSPathHitting(Stop origin, Stop destionation,Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException
-
+TODO findBFSPathOnLine(Stop origin, Stop destination, int line) throws DestionationUnreachableException
 }
