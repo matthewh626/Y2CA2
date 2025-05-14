@@ -4,11 +4,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import com.ca2.routefinder.Map.Path;
+
 class MapTest {
 static Map testInstance;
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		testInstance = new Map("/home/sunbro/eclipse-workspace/metroMap/application/vienna_subway.csv");
+		testInstance = new Map("/home/sunbro/eclipse-workspace/metroMap/com/ca2/routefinder/vienna_subway.csv");
 	}
 
 	@Test
@@ -21,7 +23,9 @@ static Map testInstance;
 	@Test
 	void dfsTest() {
 		try {
-			assert(testInstance.findDFSPath(testInstance.getStop("Keplerplatz"), testInstance.getStop("oberlaa")) != null);
+			Path temp = testInstance.findDFSPath(testInstance.getStop("Rathaus"), testInstance.getStop("oberlaa"));
+			assert(temp != null);
+			System.out.println(temp.toString());
 			
 		} catch (DestionationUnreachableException e) {
 			e.printStackTrace();

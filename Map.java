@@ -17,7 +17,8 @@ public class Map {
 		        String[] values = line.split(",");																				//csv file, splits it at commas
 		        if (!stopExsists(values[0])) addStop(values[0]);																//checks if both the start and 
 		        if (!stopExsists(values[1])) addStop(values[1]);																//destination are existing stops
-		        getStop(values[0]).addLink(getStop(values[1]), 1, Integer.parseInt(values[2]),Integer.parseInt(values[4]));		//and adds them if not, it then 
+		        getStop(values[0]).addLink(getStop(values[1]), 1, Integer.parseInt(values[2]),Integer.parseInt(values[4]));
+		        getStop(values[1]).addLink(getStop(values[0]), 1, Integer.parseInt(values[2]),Integer.parseInt(values[4]));//and adds them if not, it then 
 			}																													//adds a link from the first to
 			br.close();																											//the second with a default
 		} catch (Exception e) {e.printStackTrace();}																			//weight of 1.
@@ -49,6 +50,14 @@ public class Map {
 			}
 			return res;
 		}
+		@Override
+		public String toString() {
+			String temp = "";
+			for (int i = 0; i < stops.length; i++) {
+				temp += stops[i].name + (i == stops.length-1 ? "" : " -> ");
+			}
+			return temp;
+		}
 		
 	}// end of Path Class
 	
@@ -61,6 +70,15 @@ public class Map {
 	
 	public Stop[] getAllStops() {
 		return (Stop[]) stops.toArray();
+	}
+	
+	public String[] getAllStopNames() {
+		Stop[] stops = getAllStops();
+		String[] temp = new String[stops.length];
+		for (int i = 0; i < stops.length; i++) {
+			temp[i] = stops[i].name;
+		}
+		return temp;
 	}
 	
 	public boolean stopExsists(String name) {
@@ -83,13 +101,17 @@ public class Map {
 		ArrayList<Stop> candidate = new ArrayList<Stop>();
 		ArrayList<Integer> tree = new ArrayList<Integer>();
 		int depth = 0; // this is counting back from the end of the array list
+		tree.add(0);
 		candidate.add(origin);
 		while (!candidate.getLast().isLinked(destination)) {
 		while (candidate.getLast().hasLinks()) { // this loop does the main plunge
 			tree.add(0);
 			candidate.add(candidate.getLast().getLink(tree.get(depth)).dest);
 			depth++;
-			if (candidate.getLast().isLinked(destination)) return new Path(candidate.toArray(new Stop[candidate.size()])); //early return for if first plunge hits the destination
+			if (candidate.getLast().isLinked(destination)) {
+				candidate.add(destination);
+				return new Path(candidate.toArray(new Stop[candidate.size()]));
+			}//early return for if first plunge hits the destination
 		}
 			candidate.removeLast(); //these three take a step back
 			tree.removeLast();

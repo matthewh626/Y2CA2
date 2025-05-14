@@ -24,20 +24,20 @@ Exception DestionationUnreachableException // indicates that the path finding co
 
 Stop getStop(String name) // getters and setters for stops will referance them by name
 Stop[] getAllStops()
-// TODO request - String[] getAllStopNames() // return array of all stop names, for use in the choicebox selection in JavaFX
+String[] getAllStopNames() // return array of all stop names, for use in the choicebox selection in JavaFX. Done
 boolean stopExists(String name)
 boolean addStop(String name) // boolean returns indicate sucess
 boolean remStop(String name)
 
 // these methods will try to find a path via depth first search, and will be optimised for minimal path weight
 Path findDFSPath(Stop origin, Stop destionation) Throws DestionationUnreachableException
-Path findDFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) throws DestionationUnreachableException
-Path findDFSPathHitting(Stop origin, Stop destionation, Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException
-TODO findDFSPathOnLine(Stop origin, Stop destination, int line) throws DestionationUnreachableException
+TODO Path findDFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) throws DestionationUnreachableException
+TODO Path findDFSPathHitting(Stop origin, Stop destionation, Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException
+TODO Path findDFSPathOnLine(Stop origin, Stop destination, int line) throws DestionationUnreachableException
 
 // these methods will try to find a path via breath first search, and will be optimised for performance
-Path findBFSPath(Stop origin, Stop destionation) throws DestionationUnreachableException
-Path findBFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) throws DestionationUnreachableException
-Path findBFSPathHitting(Stop origin, Stop destionation,Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException
-TODO findBFSPathOnLine(Stop origin, Stop destination, int line) throws DestionationUnreachableException
+TODO Path findBFSPath(Stop origin, Stop destionation) throws DestionationUnreachableException
+TODO Path findBFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) throws DestionationUnreachableException
+TODO Path findBFSPathHitting(Stop origin, Stop destionation,Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException
+TODO Path findBFSPathOnLine(Stop origin, Stop destination, int line) throws DestionationUnreachableException
 }
