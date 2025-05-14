@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Map {
 	ArrayList<Stop> stops = new ArrayList<Stop>();
@@ -114,9 +116,11 @@ public class Map {
 				return new Path(candidate.toArray(new Stop[candidate.size()]));
 			}//early return for if first plunge hits the destination
 		}
+		if (candidate.getFirst().equals(candidate.getLast())) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
 			candidate.removeLast(); //these two take a step back
 			depth--;
 			if(tree.get(depth)==candidate.getLast().links.size()-1) { //if the current stop has all of its links checked take a second step back
+				if (candidate.getFirst().equals(candidate.getLast())) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
 				candidate.removeLast();
 				depth--;
 		}
@@ -139,19 +143,16 @@ public class Map {
 		while (candidate.getLast().hasLinks()) { // this loop does the main plunge
 			if (depth >= tree.size()) tree.add(0);
 			tree.set(depth, candidate.contains(candidate.getLast().getLink(tree.get(depth)).dest)? tree.get(depth)+1 : tree.get(depth));
-			candidate.add(candidate.getLast().getLink(tree.get(depth)).dest);
-			System.out.println("Stepped to " + candidate.getLast().name);
-			depth++;
+			candidate.add(candidate.getLast().getLink(tree.get(depth)).dest);depth++;
 			
 			if (avoid.contains(candidate.getLast())) {// this block acts as if the path below the avoided stop has been checked
-				candidate.removeLast(); //these two take a step back
-				depth--;
-				System.out.println("Stepped back");
-				if(tree.get(depth)==candidate.getLast().links.size()-1) { //if the current stop has all of its links checked take a second step back
+				
+				if (candidate.getFirst().equals(candidate.getLast())) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);candidate.removeLast(); //these two take a step back
+				depth--;if(tree.get(depth)==candidate.getLast().links.size()-1) { //if the current stop has all of its links checked take a second step back
+					if (candidate.getFirst().equals(candidate.getLast())) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
 					candidate.removeLast(); 
 					depth--;
-					System.out.println("Stepped back");
-			}
+					}
 				else tree.set(depth, tree.get(depth)+1);	
 			}
 			
@@ -160,13 +161,13 @@ public class Map {
 				return new Path(candidate.toArray(new Stop[candidate.size()]));
 			}//early return for if first plunge hits the destination
 		}
+			if (candidate.getFirst().equals(candidate.getLast())) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
 			candidate.removeLast(); //these two take a step back
 			depth--;
-			System.out.println("Stepped back");
 			if(tree.get(depth)==candidate.getLast().links.size()-1) { //if the current stop has all of its links checked take a second step back
+				if (candidate.getFirst().equals(candidate.getLast())) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
 				candidate.removeLast();
 				depth--;
-				System.out.println("Stepped back");
 		}
 			else tree.set(depth, tree.get(depth)+1);
 		}
@@ -176,8 +177,21 @@ public class Map {
 	}
 	
 	public Path findDFSPathHitting(Stop origin, Stop destination, Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException{
-		return null;
-		
+		ArrayList<Path> segments = new ArrayList<Path>(toHit.length);
+		for (int i = 0; i < segments.size(); i++) {
+			segments.set(i, findDFSPathAvoiding(origin, destination, toAvoid));
+		}
+		segments.sort((p1,p2) -> Integer.compare(p1.getTotalWeight(),p2.getTotalWeight()));
+		ArrayList<Stop> candidate = new ArrayList<Stop>();
+		for (Stop s : segments.get(0).stops) {
+			candidate.add(s);
+		}
+		for (int i = 1; i < segments.size(); i++) {
+			for (Stop s : findDFSPathAvoiding(segments.get(i-1).stops[stops.size()-1],segments.get(i).stops[0],toAvoid).stops) {
+				candidate.add(s);
+			}
+		}
+		return new Path(candidate.toArray(new Stop[candidate.size()]));
 	}
 	
 	public Path findBFSPath(Stop origin, Stop destination) throws DestionationUnreachableException {

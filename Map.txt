@@ -12,6 +12,8 @@ Constructor (String filePath) // will construct map from the .csv file
 
 SubClass Path{
 Constructor (Stop[])
+String toString() //returns a string in the format Origin -> Stop -> ... Destination
+int getTotalWeight()
 
 Stop[] getStops()
 int getTotalWeight()
@@ -29,13 +31,13 @@ boolean stopExists(String name)
 boolean addStop(String name) // boolean returns indicate sucess
 boolean remStop(String name)
 
-// these methods will try to find a path via depth first search, and will be optimised for minimal path weight
+// these methods will try to find a path via depth first search, and will be optimised for performance
 Path findDFSPath(Stop origin, Stop destionation) Throws DestionationUnreachableException
-TODO Path findDFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) throws DestionationUnreachableException
-TODO Path findDFSPathHitting(Stop origin, Stop destionation, Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException
+Path findDFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) throws DestionationUnreachableException
+Path findDFSPathHitting(Stop origin, Stop destionation, Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException
 TODO Path findDFSPathOnLine(Stop origin, Stop destination, int line) throws DestionationUnreachableException
 
-// these methods will try to find a path via breath first search, and will be optimised for performance
+// these methods will try to find a path via breath first search, and will be optimised for minimal path weight
 TODO Path findBFSPath(Stop origin, Stop destionation) throws DestionationUnreachableException
 TODO Path findBFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) throws DestionationUnreachableException
 TODO Path findBFSPathHitting(Stop origin, Stop destionation,Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException
