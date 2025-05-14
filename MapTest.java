@@ -32,5 +32,10 @@ static Map testInstance;
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	void getAllStopsTest() {
+		assert(testInstance.getAllStopNames() != null);
+	}
 
 }

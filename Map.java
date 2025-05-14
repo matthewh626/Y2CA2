@@ -69,7 +69,7 @@ public class Map {
 	}
 	
 	public Stop[] getAllStops() {
-		return (Stop[]) stops.toArray();
+		return stops.toArray(new Stop[stops.size()]);
 	}
 	
 	public String[] getAllStopNames() {
