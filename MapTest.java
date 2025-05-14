@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import com.ca2.routefinder.Map.Path;
 
+@SuppressWarnings("unused")
 class MapTest {
 static Map testInstance;
 	@BeforeAll
@@ -23,7 +24,7 @@ static Map testInstance;
 	@Test
 	void dfsTest() {
 		try {
-			Path temp = testInstance.findDFSPath(testInstance.getStop("Rathaus"), testInstance.getStop("oberlaa"));
+			Path temp = testInstance.findDFSPathAvoiding(testInstance.getStop("Rathaus"), testInstance.getStop("oberlaa"), new Stop[]{testInstance.getStop("schottentor")});
 			assert(temp != null);
 			System.out.println(temp.toString());
 			

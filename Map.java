@@ -105,7 +105,8 @@ public class Map {
 		candidate.add(origin);
 		while (!candidate.getLast().isLinked(destination)) {
 		while (candidate.getLast().hasLinks()) { // this loop does the main plunge
-			tree.add(0);
+			if (depth >= tree.size()) tree.add(0);
+			tree.set(depth, candidate.contains(candidate.getLast().getLink(tree.get(depth)).dest)? tree.get(depth)+1 : tree.get(depth));
 			candidate.add(candidate.getLast().getLink(tree.get(depth)).dest);
 			depth++;
 			if (candidate.getLast().isLinked(destination)) {
@@ -113,12 +114,10 @@ public class Map {
 				return new Path(candidate.toArray(new Stop[candidate.size()]));
 			}//early return for if first plunge hits the destination
 		}
-			candidate.removeLast(); //these three take a step back
-			tree.removeLast();
+			candidate.removeLast(); //these two take a step back
 			depth--;
 			if(tree.get(depth)==candidate.getLast().links.size()-1) { //if the current stop has all of its links checked take a second step back
-				candidate.removeLast(); 
-				tree.removeLast();
+				candidate.removeLast();
 				depth--;
 		}
 			else tree.set(depth, tree.get(depth)+1);
@@ -128,24 +127,68 @@ public class Map {
 		return null;
 	}
 	
-	public Path findDFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) throws DestionationUnreachableException{
+	public Path findDFSPathAvoiding(Stop origin, Stop destination, Stop[] toAvoid) throws DestionationUnreachableException{
+		if (origin.isLinked(destination)) return (new Path(new Stop[]{origin, destination})); // early return point for if origin and destination are adjacent
+		ArrayList<Stop> candidate = new ArrayList<Stop>();
+		ArrayList<Integer> tree = new ArrayList<Integer>();
+		ArrayList<Stop> avoid = new ArrayList<Stop>(Arrays.asList(toAvoid));
+		int depth = 0; // this is counting back from the end of the array list
+		tree.add(0);
+		candidate.add(origin);
+		while (!candidate.getLast().isLinked(destination)) {
+		while (candidate.getLast().hasLinks()) { // this loop does the main plunge
+			if (depth >= tree.size()) tree.add(0);
+			tree.set(depth, candidate.contains(candidate.getLast().getLink(tree.get(depth)).dest)? tree.get(depth)+1 : tree.get(depth));
+			candidate.add(candidate.getLast().getLink(tree.get(depth)).dest);
+			System.out.println("Stepped to " + candidate.getLast().name);
+			depth++;
+			
+			if (avoid.contains(candidate.getLast())) {// this block acts as if the path below the avoided stop has been checked
+				candidate.removeLast(); //these two take a step back
+				depth--;
+				System.out.println("Stepped back");
+				if(tree.get(depth)==candidate.getLast().links.size()-1) { //if the current stop has all of its links checked take a second step back
+					candidate.removeLast(); 
+					depth--;
+					System.out.println("Stepped back");
+			}
+				else tree.set(depth, tree.get(depth)+1);	
+			}
+			
+			if (candidate.getLast().isLinked(destination)) {
+				candidate.add(destination);
+				return new Path(candidate.toArray(new Stop[candidate.size()]));
+			}//early return for if first plunge hits the destination
+		}
+			candidate.removeLast(); //these two take a step back
+			depth--;
+			System.out.println("Stepped back");
+			if(tree.get(depth)==candidate.getLast().links.size()-1) { //if the current stop has all of its links checked take a second step back
+				candidate.removeLast();
+				depth--;
+				System.out.println("Stepped back");
+		}
+			else tree.set(depth, tree.get(depth)+1);
+		}
+		
+		System.out.println("Warning: pathfinder is returning null, this code should never be reached");
 		return null;
 	}
 	
-	public Path findDFSPathHitting(Stop origin, Stop destionation, Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException{
+	public Path findDFSPathHitting(Stop origin, Stop destination, Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException{
 		return null;
 		
 	}
 	
-	public Path findBFSPath(Stop origin, Stop destionation) throws DestionationUnreachableException {
+	public Path findBFSPath(Stop origin, Stop destination) throws DestionationUnreachableException {
 		return null;
 	}
 	
-	public Path findBFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) throws DestionationUnreachableException{
+	public Path findBFSPathAvoiding(Stop origin, Stop destination, Stop[] toAvoid) throws DestionationUnreachableException{
 		return null;
 	}
 	
-	public Path findBFSPathHitting(Stop origin, Stop destionation,Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException{
+	public Path findBFSPathHitting(Stop origin, Stop destination, Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException{
 		return null;
 		
 	}
