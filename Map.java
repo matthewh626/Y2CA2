@@ -20,7 +20,7 @@ public class Map {
 		        if (!stopExsists(values[0])) addStop(values[0]);																//checks if both the start and 
 		        if (!stopExsists(values[1])) addStop(values[1]);																//destination are existing stops
 		        getStop(values[0]).addLink(getStop(values[1]), 1, Integer.parseInt(values[2]),Integer.parseInt(values[4]));
-		        getStop(values[1]).addLink(getStop(values[0]), 1, Integer.parseInt(values[2]),Integer.parseInt(values[4]));//and adds them if not, it then 
+		        getStop(values[1]).addLink(getStop(values[0]), 1, Integer.parseInt(values[2]),Integer.parseInt(values[4]));		//and adds them if not, it then 
 			}																													//adds a link from the first to
 			br.close();																											//the second with a default
 		} catch (Exception e) {e.printStackTrace();}																			//weight of 1.
@@ -106,6 +106,7 @@ public class Map {
 		tree.add(0);
 		candidate.add(origin);
 		while (!candidate.getLast().isLinked(destination)) {
+		//if (depth >= tree.size()) tree.add(0);
 		while (!candidate.contains(candidate.getLast().getLink(tree.get(depth)).dest)) { // this loop does the main plunge
 			if (depth >= tree.size()) tree.add(0);
 			tree.set(depth, candidate.contains(candidate.getLast().getLink(tree.get(depth)).dest) && candidate.getLast().links.size() > tree.get(depth)+1 ? tree.get(depth)+1 : tree.get(depth));
@@ -120,10 +121,14 @@ public class Map {
 		if (candidate.getFirst().equals(candidate.getLast())) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
 			//candidate.removeLast(); //these two take a step back
 			//depth--;
+		
 			if(tree.get(depth)==candidate.getLast().links.size()-1) { //if the current stop has all of its links checked take a second step back
 				if (candidate.getFirst().equals(candidate.getLast())) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
+				while(tree.get(depth)==candidate.getLast().links.size()-1) {
 				candidate.removeLast();
 				depth--;
+				tree.removeLast();
+				}
 				tree.set(depth, tree.get(depth)+1);
 		}
 			else tree.set(depth, tree.get(depth)+1);
@@ -142,6 +147,7 @@ public class Map {
 		tree.add(0);
 		candidate.add(origin);
 		while (!candidate.getLast().isLinked(destination)) {
+		if (depth >= tree.size()) tree.add(0);
 		while (!candidate.contains(candidate.getLast().getLink(tree.get(depth)).dest)) { // this loop does the main plunge
 			if (depth >= tree.size()) tree.add(0);
 			tree.set(depth, candidate.contains(candidate.getLast().getLink(tree.get(depth)).dest) && candidate.getLast().links.size() > tree.get(depth)+1? tree.get(depth)+1 : tree.get(depth));
