@@ -24,7 +24,7 @@ static Map testInstance;
 	@Test
 	void dfsTest() {
 		try {
-			Path temp = testInstance.findDFSPathAvoiding(testInstance.getStop("keplerplatz"), testInstance.getStop("Taubstummengasse"), new Stop[]{testInstance.getStop("schottentor")});
+			Path temp = testInstance.findDFSPathAvoiding(testInstance.getStop("Neulaa"), testInstance.getStop("Keplerplatz"), new Stop[] {});
 			assert(temp != null);
 			System.out.println(temp.toString());
 			

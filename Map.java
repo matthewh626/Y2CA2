@@ -118,12 +118,13 @@ public class Map {
 			if (depth >= tree.size()) tree.add(0);
 		}
 		if (candidate.getFirst().equals(candidate.getLast())) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
-			candidate.removeLast(); //these two take a step back
-			depth--;
+			//candidate.removeLast(); //these two take a step back
+			//depth--;
 			if(tree.get(depth)==candidate.getLast().links.size()-1) { //if the current stop has all of its links checked take a second step back
 				if (candidate.getFirst().equals(candidate.getLast())) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
 				candidate.removeLast();
 				depth--;
+				tree.set(depth, tree.get(depth)+1);
 		}
 			else tree.set(depth, tree.get(depth)+1);
 		}
@@ -165,12 +166,13 @@ public class Map {
 			if (depth >= tree.size()) tree.add(0);
 		}
 			if (candidate.getFirst().equals(candidate.getLast())) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
-			candidate.removeLast(); //these two take a step back
-			depth--;
+			//candidate.removeLast(); //these two take a step back
+			//depth--;
 			if(tree.get(depth)==candidate.getLast().links.size()-1) { //if the current stop has all of its links checked take a second step back
 				if (candidate.getFirst().equals(candidate.getLast())) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
 				candidate.removeLast();
 				depth--;
+				tree.set(depth, tree.get(depth)+1);
 		}
 			else tree.set(depth, tree.get(depth)+1);
 		}
