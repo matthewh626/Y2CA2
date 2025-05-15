@@ -106,15 +106,16 @@ public class Map {
 		tree.add(0);
 		candidate.add(origin);
 		while (!candidate.getLast().isLinked(destination)) {
-		while (candidate.getLast().hasLinks()) { // this loop does the main plunge
+		while (!candidate.contains(candidate.getLast().getLink(tree.get(depth)).dest)) { // this loop does the main plunge
 			if (depth >= tree.size()) tree.add(0);
-			tree.set(depth, candidate.contains(candidate.getLast().getLink(tree.get(depth)).dest)? tree.get(depth)+1 : tree.get(depth));
+			tree.set(depth, candidate.contains(candidate.getLast().getLink(tree.get(depth)).dest) && candidate.getLast().links.size() > tree.get(depth)+1 ? tree.get(depth)+1 : tree.get(depth));
 			candidate.add(candidate.getLast().getLink(tree.get(depth)).dest);
 			depth++;
 			if (candidate.getLast().isLinked(destination)) {
 				candidate.add(destination);
 				return new Path(candidate.toArray(new Stop[candidate.size()]));
 			}//early return for if first plunge hits the destination
+			if (depth >= tree.size()) tree.add(0);
 		}
 		if (candidate.getFirst().equals(candidate.getLast())) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
 			candidate.removeLast(); //these two take a step back
@@ -140,10 +141,11 @@ public class Map {
 		tree.add(0);
 		candidate.add(origin);
 		while (!candidate.getLast().isLinked(destination)) {
-		while (candidate.getLast().hasLinks()) { // this loop does the main plunge
+		while (!candidate.contains(candidate.getLast().getLink(tree.get(depth)).dest)) { // this loop does the main plunge
 			if (depth >= tree.size()) tree.add(0);
-			tree.set(depth, candidate.contains(candidate.getLast().getLink(tree.get(depth)).dest)? tree.get(depth)+1 : tree.get(depth));
-			candidate.add(candidate.getLast().getLink(tree.get(depth)).dest);depth++;
+			tree.set(depth, candidate.contains(candidate.getLast().getLink(tree.get(depth)).dest) && candidate.getLast().links.size() > tree.get(depth)+1? tree.get(depth)+1 : tree.get(depth));
+			candidate.add(candidate.getLast().getLink(tree.get(depth)).dest);
+			depth++;
 			
 			if (avoid.contains(candidate.getLast())) {// this block acts as if the path below the avoided stop has been checked
 				
@@ -160,6 +162,7 @@ public class Map {
 				candidate.add(destination);
 				return new Path(candidate.toArray(new Stop[candidate.size()]));
 			}//early return for if first plunge hits the destination
+			if (depth >= tree.size()) tree.add(0);
 		}
 			if (candidate.getFirst().equals(candidate.getLast())) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
 			candidate.removeLast(); //these two take a step back
