@@ -26,8 +26,6 @@ static Map testInstance;
 		try {
 			Path temp = testInstance.findDFSPath(testInstance.getStop("Neulaa"), testInstance.getStop("donaumarina"));
 			assert(temp != null);
-			System.out.println(temp.toString());
-			
 		} catch (DestionationUnreachableException e) {
 			e.printStackTrace();
 		}
@@ -38,4 +36,15 @@ static Map testInstance;
 		assert(testInstance.getAllStopNames() != null);
 	}
 
+	@Test
+	void bfsTest() {
+		try {
+			Path temp = testInstance.findBFSPath(testInstance.getStop("Neulaa"), testInstance.getStop("oberlaa"));
+			assert(temp != null);
+			System.out.println(temp.toString());
+		} catch (DestionationUnreachableException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

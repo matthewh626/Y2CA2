@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
+import com.ca2.routefinder.Stop.Link;
+
 public class Map {
 	ArrayList<Stop> stops = new ArrayList<Stop>();
 	
@@ -29,17 +31,18 @@ public class Map {
 	
 	public class Path{
 		Stop[] stops;
-		
+		int totWeight = 0; 	//this was added to allow for later optimisations, as it will hold the return value from
+							//the last time that getTotalWeight was run as thats an iterative method so it can be slow
 		Path (Stop[] stops) {
 			this.stops = stops;
 		}
 		
 		public int getTotalWeight() {
-			int res = 0;
+			totWeight = 0;
 			for (int i = 0; i < stops.length -1; i++) {
-				res += stops[i].getWeight(stops[i+1]); // this is done like this because Stop.getWeight gives the weight for the 
-			}										   // link from the parent stop to the stop passed in, only works for direct
-			return res;								   // links, for multi step weights a path must be generated.
+				totWeight += stops[i].getWeight(stops[i+1]); 	// this is done like this because Stop.getWeight gives the weight for the 
+			}										  			// link from the parent stop to the stop passed in, only works for direct
+			return totWeight;								   	// links, for multi step weights a path must be generated.
 		}
 		
 		public boolean passes(Stop s) {
@@ -242,8 +245,46 @@ public class Map {
 		return null;
 	}
 	
-	public Path findBFSPath(Stop origin, Stop destination) throws DestionationUnreachableException {
-		return null;
+	public Path findBFSPath(Stop origin, Stop destination) throws DestionationUnreachableException { //i know this looks totally different from my usual code but we are ever evolving creatures after all (and i don't have time for my usual bitwise antics)
+		if (origin.isLinked(destination)) return new Path(new Stop[] {origin, destination});// early return for if task is trivial
+		
+		//Initialisation
+		ArrayList<Path> candidates = new ArrayList<Path>();	
+		candidates.add(new Path(new Stop[] {origin}));
+		candidates.getFirst().getTotalWeight(); 			//this is called to calculate the weight so that it is buffered for faster sorting later, i intend to do this when ever a path is added
+		Stop[] temp = new Stop[candidates.getFirst().stops.length + 1];
+		
+		//outer loop needs to sort the candidates, check if the shortest path is linked to destination 
+		//(this is being checked this way for the situation where the last step to the destination from the second to last step leader is very heavy
+		//and one of the runners up is actually shorter in the end) then call the inner loop
+		while (true) { //this is only a "while true" until i can come up with a better condition
+			candidates.sort((p1,p2) -> Integer.compare(p1.getTotalWeight(),p2.getTotalWeight()));
+			
+			if (candidates.getFirst().stops[candidates.getFirst().stops.length-1].equals(destination)) {
+				return candidates.getFirst();
+			}
+			
+			//inner loop, this will handle branching out from the current shortest path (list should be sorted before calling this)
+			for (Link l : candidates.getFirst().stops[candidates.getFirst().stops.length-1].links){
+				System.arraycopy(candidates.getFirst().stops, 0, temp, 0, candidates.getFirst().stops.length);
+				temp[temp.length-1] = l.dest;
+				candidates.add(new Path(temp));
+				candidates.getLast().getTotalWeight();
+			}
+			candidates.removeFirst(); //this is done so that only leading edge terminating paths are considered, it would get stuck at the beginning otherwise
+
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 	
 	public Path findBFSPathAvoiding(Stop origin, Stop destination, Stop[] toAvoid) throws DestionationUnreachableException{
@@ -252,7 +293,10 @@ public class Map {
 	
 	public Path findBFSPathHitting(Stop origin, Stop destination, Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException{
 		return null;
-		
+	}
+	
+	public Path findBFSPathOnLine(Stop origin, Stop destination, int line) throws DestionationUnreachableException{
+		return null;
 	}
 
 	
