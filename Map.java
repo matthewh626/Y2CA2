@@ -205,6 +205,43 @@ public class Map {
 		return new Path(candidate.toArray(new Stop[candidate.size()]));
 	}
 	
+	public Path findDFSPathOnLine(Stop origin, Stop destination, int line) throws DestionationUnreachableException {
+		if (origin.isLinked(destination)) return (new Path(new Stop[]{origin, destination})); // early return point for if origin and destination are adjacent
+		ArrayList<Stop> candidate = new ArrayList<Stop>();
+		ArrayList<Integer> tree = new ArrayList<Integer>();
+		int depth = 0; // this is counting back from the end of the array list
+		tree.add(0);
+		candidate.add(origin);
+		while (!candidate.getLast().isLinked(destination)) {
+		if (depth >= tree.size()) tree.add(0);
+		while (!candidate.contains(candidate.getLast().getLink(tree.get(depth)).dest)) { // this loop does the main plunge
+			if (depth >= tree.size()) tree.add(0);
+			tree.set(depth, (candidate.contains(candidate.getLast().getLink(tree.get(depth)).dest) || candidate.getLast().getLink(tree.get(depth)).line != line) && candidate.getLast().links.size() > tree.get(depth)+1? tree.get(depth)+1 : tree.get(depth));
+			candidate.add(candidate.getLast().getLink(tree.get(depth)).dest);
+			depth++;
+			if (candidate.getLast().isLinked(destination)) {
+				candidate.add(destination);
+				return new Path(candidate.toArray(new Stop[candidate.size()]));
+			}//early return for if first plunge hits the destination
+			if (depth >= tree.size()) tree.add(0);
+		}
+			if (candidate.getFirst().equals(candidate.getLast())) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
+			//candidate.removeLast(); //these two take a step back
+			//depth--;
+			if(tree.get(depth)==candidate.getLast().links.size()-1) { //if the current stop has all of its links checked take a second step back
+				if (candidate.getFirst().equals(candidate.getLast())) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
+				candidate.removeLast();
+				depth--;
+				tree.set(depth, tree.get(depth)+1);
+		}
+			else tree.set(depth, tree.get(depth)+1);
+		}
+		
+		System.out.println("Warning: pathfinder is returning null, this code should never be reached");
+		
+		return null;
+	}
+	
 	public Path findBFSPath(Stop origin, Stop destination) throws DestionationUnreachableException {
 		return null;
 	}
