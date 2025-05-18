@@ -259,46 +259,120 @@ public class Map {
 		//and one of the runners up is actually shorter in the end) then call the inner loop
 		while (true) { //this is only a "while true" until i can come up with a better condition
 			candidates.sort((p1,p2) -> Integer.compare(p1.getTotalWeight(),p2.getTotalWeight()));
-			
 			if (candidates.getFirst().stops[candidates.getFirst().stops.length-1].equals(destination)) {
 				return candidates.getFirst();
 			}
 			
 			//inner loop, this will handle branching out from the current shortest path (list should be sorted before calling this)
 			for (Link l : candidates.getFirst().stops[candidates.getFirst().stops.length-1].links){
+				if (!candidates.getFirst().passes(l.dest)) {
 				System.arraycopy(candidates.getFirst().stops, 0, temp, 0, candidates.getFirst().stops.length);
 				temp[temp.length-1] = l.dest;
 				candidates.add(new Path(temp));
 				candidates.getLast().getTotalWeight();
+				}
 			}
 			candidates.removeFirst(); //this is done so that only leading edge terminating paths are considered, it would get stuck at the beginning otherwise
-
+			if (candidates.isEmpty()) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
 	
 	public Path findBFSPathAvoiding(Stop origin, Stop destination, Stop[] toAvoid) throws DestionationUnreachableException{
-		return null;
+		if (origin.isLinked(destination)) return new Path(new Stop[] {origin, destination});
+		
+		//Initialisation
+		ArrayList<Path> candidates = new ArrayList<Path>();	
+		candidates.add(new Path(new Stop[] {origin}));
+		candidates.getFirst().getTotalWeight(); 			
+		Stop[] temp = new Stop[candidates.getFirst().stops.length + 1];
+		
+		while (true) {
+			candidates.sort((p1,p2) -> Integer.compare(p1.getTotalWeight(),p2.getTotalWeight()));
+			if (candidates.getFirst().stops[candidates.getFirst().stops.length-1].equals(destination)) {
+				return candidates.getFirst();
+			}
+			
+			while (Arrays.asList(toAvoid).contains((candidates.getFirst().stops[candidates.getFirst().stops.length-1]))) {
+				candidates.removeFirst();
+			}
+			
+			for (Link l : candidates.getFirst().stops[candidates.getFirst().stops.length-1].links){
+				if (!candidates.getFirst().passes(l.dest)) {
+				System.arraycopy(candidates.getFirst().stops, 0, temp, 0, candidates.getFirst().stops.length);
+				temp[temp.length-1] = l.dest;
+				candidates.add(new Path(temp));
+				candidates.getLast().getTotalWeight();
+				}
+			}
+			candidates.removeFirst();
+			if (candidates.isEmpty()) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
+		}
 	}
 	
 	public Path findBFSPathHitting(Stop origin, Stop destination, Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException{
-		return null;
+		if (origin.isLinked(destination)) return new Path(new Stop[] {origin, destination});
+		
+		ArrayList<Path> candidates = new ArrayList<Path>();	
+		candidates.add(new Path(new Stop[] {origin}));
+		candidates.getFirst().getTotalWeight(); 			
+		Stop[] temp = new Stop[candidates.getFirst().stops.length + 1];
+		
+		while (true) {
+			candidates.sort((p1,p2) -> Integer.compare(p1.getTotalWeight(),p2.getTotalWeight()));
+			while (Arrays.asList(toAvoid).contains((candidates.getFirst().stops[candidates.getFirst().stops.length-1]))) {
+				candidates.removeFirst();
+			}
+			
+			if (candidates.getFirst().stops[candidates.getFirst().stops.length-1].equals(destination)) {
+				if (Arrays.asList(candidates.getFirst().stops).containsAll(Arrays.asList(toHit))) return candidates.getFirst();
+				else candidates.removeFirst();
+			}
+			
+			for (Link l : candidates.getFirst().stops[candidates.getFirst().stops.length-1].links){
+				if (!candidates.getFirst().passes(l.dest)) {
+				System.arraycopy(candidates.getFirst().stops, 0, temp, 0, candidates.getFirst().stops.length);
+				temp[temp.length-1] = l.dest;
+				candidates.add(new Path(temp));
+				candidates.getLast().getTotalWeight();
+				}
+			}
+			candidates.removeFirst();
+			if (candidates.isEmpty()) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
+		}
 	}
 	
 	public Path findBFSPathOnLine(Stop origin, Stop destination, int line) throws DestionationUnreachableException{
-		return null;
+	if (origin.isLinked(destination)) return new Path(new Stop[] {origin, destination});
+		
+		//Initialisation
+		ArrayList<Path> candidates = new ArrayList<Path>();	
+		candidates.add(new Path(new Stop[] {origin}));
+		candidates.getFirst().getTotalWeight(); 			
+		Stop[] temp = new Stop[candidates.getFirst().stops.length + 1];
+		
+		while (true) {
+			candidates.sort((p1,p2) -> Integer.compare(p1.getTotalWeight(),p2.getTotalWeight()));
+			
+			while (candidates.getFirst().stops[candidates.getFirst().stops.length-2].getLink(candidates.getFirst().stops[candidates.getFirst().stops.length-1]).line != line) {
+				candidates.removeFirst();
+			}
+			
+			if (candidates.getFirst().stops[candidates.getFirst().stops.length-1].equals(destination)) {
+				return candidates.getFirst();
+			}
+			
+			for (Link l : candidates.getFirst().stops[candidates.getFirst().stops.length-1].links){
+				if (!candidates.getFirst().passes(l.dest)) {
+				System.arraycopy(candidates.getFirst().stops, 0, temp, 0, candidates.getFirst().stops.length);
+				temp[temp.length-1] = l.dest;
+				candidates.add(new Path(temp));
+				candidates.getLast().getTotalWeight();
+				}
+			}
+			candidates.removeFirst();
+			if (candidates.isEmpty()) throw new DestionationUnreachableException("Unable to find path between " + origin.name + " and " + destination.name);
+		}
 	}
 
-	
 }// end of Map Class
 
