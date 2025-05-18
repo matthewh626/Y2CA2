@@ -38,8 +38,8 @@ Path findDFSPathHitting(Stop origin, Stop destionation, Stop[] toAvoid, Stop[] t
 Path findDFSPathOnLine(Stop origin, Stop destination, int line) throws DestionationUnreachableException
 
 // these methods will try to find a path via breath first search, and will be optimised for minimal path weight
-TODO Path findBFSPath(Stop origin, Stop destionation) throws DestionationUnreachableException
-TODO Path findBFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) throws DestionationUnreachableException
-TODO Path findBFSPathHitting(Stop origin, Stop destionation,Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException
-TODO Path findBFSPathOnLine(Stop origin, Stop destination, int line) throws DestionationUnreachableException
+Path findBFSPath(Stop origin, Stop destionation) throws DestionationUnreachableException
+Path findBFSPathAvoiding(Stop origin, Stop destionation, Stop[] toAvoid) throws DestionationUnreachableException
+Path findBFSPathHitting(Stop origin, Stop destionation,Stop[] toAvoid, Stop[] toHit) throws DestionationUnreachableException
+Path findBFSPathOnLine(Stop origin, Stop destination, int line) throws DestionationUnreachableException
 }

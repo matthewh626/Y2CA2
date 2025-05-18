@@ -34,7 +34,7 @@ public class Map {
 		int totWeight = 0; 	//this was added to allow for later optimisations, as it will hold the return value from
 							//the last time that getTotalWeight was run as thats an iterative method so it can be slow
 		Path (Stop[] stops) {
-			this.stops = stops;
+			this.stops = Arrays.copyOf(stops, stops.length);
 		}
 		
 		public int getTotalWeight() {
@@ -264,12 +264,13 @@ public class Map {
 			}
 			
 			//inner loop, this will handle branching out from the current shortest path (list should be sorted before calling this)
+			temp = new Stop[candidates.getFirst().stops.length + 1];
+			System.arraycopy(candidates.getFirst().stops, 0, temp, 0, candidates.getFirst().stops.length);
 			for (Link l : candidates.getFirst().stops[candidates.getFirst().stops.length-1].links){
 				if (!candidates.getFirst().passes(l.dest)) {
-				System.arraycopy(candidates.getFirst().stops, 0, temp, 0, candidates.getFirst().stops.length);
-				temp[temp.length-1] = l.dest;
-				candidates.add(new Path(temp));
-				candidates.getLast().getTotalWeight();
+					temp[temp.length-1] = l.dest;
+					candidates.add(new Path(temp));
+					candidates.getLast().getTotalWeight();
 				}
 			}
 			candidates.removeFirst(); //this is done so that only leading edge terminating paths are considered, it would get stuck at the beginning otherwise
@@ -296,12 +297,13 @@ public class Map {
 				candidates.removeFirst();
 			}
 			
+			temp = new Stop[candidates.getFirst().stops.length + 1];
+			System.arraycopy(candidates.getFirst().stops, 0, temp, 0, candidates.getFirst().stops.length);
 			for (Link l : candidates.getFirst().stops[candidates.getFirst().stops.length-1].links){
 				if (!candidates.getFirst().passes(l.dest)) {
-				System.arraycopy(candidates.getFirst().stops, 0, temp, 0, candidates.getFirst().stops.length);
-				temp[temp.length-1] = l.dest;
-				candidates.add(new Path(temp));
-				candidates.getLast().getTotalWeight();
+					temp[temp.length-1] = l.dest;
+					candidates.add(new Path(temp));
+					candidates.getLast().getTotalWeight();
 				}
 			}
 			candidates.removeFirst();
@@ -328,12 +330,13 @@ public class Map {
 				else candidates.removeFirst();
 			}
 			
+			temp = new Stop[candidates.getFirst().stops.length + 1];
+			System.arraycopy(candidates.getFirst().stops, 0, temp, 0, candidates.getFirst().stops.length);
 			for (Link l : candidates.getFirst().stops[candidates.getFirst().stops.length-1].links){
 				if (!candidates.getFirst().passes(l.dest)) {
-				System.arraycopy(candidates.getFirst().stops, 0, temp, 0, candidates.getFirst().stops.length);
-				temp[temp.length-1] = l.dest;
-				candidates.add(new Path(temp));
-				candidates.getLast().getTotalWeight();
+					temp[temp.length-1] = l.dest;
+					candidates.add(new Path(temp));
+					candidates.getLast().getTotalWeight();
 				}
 			}
 			candidates.removeFirst();
@@ -361,12 +364,13 @@ public class Map {
 				return candidates.getFirst();
 			}
 			
+			temp = new Stop[candidates.getFirst().stops.length + 1];
+			System.arraycopy(candidates.getFirst().stops, 0, temp, 0, candidates.getFirst().stops.length);
 			for (Link l : candidates.getFirst().stops[candidates.getFirst().stops.length-1].links){
 				if (!candidates.getFirst().passes(l.dest)) {
-				System.arraycopy(candidates.getFirst().stops, 0, temp, 0, candidates.getFirst().stops.length);
-				temp[temp.length-1] = l.dest;
-				candidates.add(new Path(temp));
-				candidates.getLast().getTotalWeight();
+					temp[temp.length-1] = l.dest;
+					candidates.add(new Path(temp));
+					candidates.getLast().getTotalWeight();
 				}
 			}
 			candidates.removeFirst();
