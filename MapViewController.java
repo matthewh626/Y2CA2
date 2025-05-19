@@ -11,6 +11,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapViewController
 {// controller:fx of mapView.fxml
@@ -19,38 +21,40 @@ public class MapViewController
     public AnchorPane staticMapView, dynamicMapView;
     public Map.Path currentPath;
     public Stop start, destination;
-    public Stop[] selectedStops;
+    public ArrayList<Stop> selectedStops = new ArrayList<Stop>();
     @FXML
     public ImageView mapView;
     @FXML
     public TextArea pathInfo;
     @FXML
-    public ToggleButton searchMode; // selected = depthfirst, deselcted = breadthfirst
+    public ToggleButton searchMode, pass, avoid; // selected = depthfirst, deselcted = breadthfirst
     @FXML
     public Button fullMapView;
     @FXML
-    public ComboBox<String> startBox, destinationBox;
+    public ComboBox<String> startBox, destinationBox, stop1, stop2, stop3;
 
 
     void printPath(){ // draws Path output onto mapView
 
     }
-    public void findPath(){ // gets new Path from Map using currently set parameters
+    public void findPath()throws DestionationUnreachableException{ // gets new Path from Map using currently set parameters
+        updateView();
+
         if(searchMode.isSelected()){ // DFS
-            try {
+            if(pass.isSelected()) // hit selected stops
+                currentPath = map.findDFSPathHitting(start,destination,new Stop[] {null},getSelectedStops());
+            else if(avoid.isSelected()) // avoid selected stops
+                currentPath = map.findDFSPathAvoiding(start,destination,getSelectedStops());
+            else // otherwise, parameterless
                 currentPath = map.findDFSPath(start,destination);
-            }
-            catch (DestionationUnreachableException e){
-                System.out.println("destUnreachableException");
-            }
         }
         else{ // BFS
-            try {
+            if(pass.isSelected()) // hit selected stops
+                currentPath = map.findBFSPathHitting(start,destination,new Stop[] {null},getSelectedStops());
+            else if(avoid.isSelected()) // avoid selected stops
+                currentPath = map.findBFSPathAvoiding(start,destination,getSelectedStops());
+            else // otherwise, parameterless
                 currentPath = map.findBFSPath(start,destination);
-            }
-            catch (DestionationUnreachableException e){
-                System.out.println("destUnreachableException");
-            }
         }
         if (currentPath != null) {
             fullMapView.setDisable(false);
@@ -80,6 +84,14 @@ public class MapViewController
         if(map.getStop(destinationBox.getSelectionModel().getSelectedItem()) != null){
             destination = map.getStop(destinationBox.getSelectionModel().getSelectedItem());
         }
+        selectedStops.clear(); // update and add stops in order of selection
+        if(stop1.getSelectionModel().getSelectedItem() != null) selectedStops.add(map.getStop(stop1.getSelectionModel().getSelectedItem()));
+        if(stop2.getSelectionModel().getSelectedItem() != null) selectedStops.add(map.getStop(stop2.getSelectionModel().getSelectedItem()));
+        if(stop3.getSelectionModel().getSelectedItem() != null) selectedStops.add(map.getStop(stop3.getSelectionModel().getSelectedItem()));
+    }
+    Stop[] getSelectedStops()
+    {
+        return selectedStops.toArray(Stop[]::new);
     }
     public void initialize() // when new controller instance is created, it becomes PVController
     {
