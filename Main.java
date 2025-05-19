@@ -35,12 +35,12 @@ public class Main extends Application
 // --- MARKING SCHEME ---
 //done• Custom graph data structure/classes = 10% Done in Map and its subclasses
 //done• Generate any single valid route between two stations = 10%
-//todo• Generate multiple valid route permutations using DFS = 10%
+//done• Generate multiple valid route permutations using DFS = 10%
 //todo• Shortest route using Dijkstra’s algorithm = 10%
 //todo• Shortest route with line change penalties using Dijkstra’s algorithm = 10%
 //done• Illustrating routes on map = 15%
 //todo• Waypoint support = 5%
-//todo• Avoiding specified stations = 5%
+//done* Avoiding specified stations = 5%
 //done• JavaFX GUI = 10%
 //done• JUnit testing = 5%
 //done• JMH benchmarking of key methods = 5%
