@@ -1,6 +1,7 @@
 package com.ca2.routefinder;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleButton;
@@ -21,6 +22,8 @@ public class MapViewController
     public TextArea pathInfo;
     @FXML
     public ToggleButton searchMode; // selected = depthfirst, deselcted = breadthfirst
+    @FXML
+    public Button fullMapView;
     @FXML
     public ComboBox<String> startBox, destinationBox;
 
@@ -45,7 +48,13 @@ public class MapViewController
                 System.out.println("destUnreachableException");
             }
         }
-        if (currentPath != null) pathInfo.setText(String.valueOf(currentPath.toString()));
+        if (currentPath != null) {
+            fullMapView.setDisable(false);
+            pathInfo.setText(String.valueOf(currentPath.toString()));
+        }
+        else{
+            fullMapView.setDisable(true);
+        }
     }
     void getParameters(){ // get user path settings, to be used when getting Path
 
@@ -71,5 +80,10 @@ public class MapViewController
     public void initialize() // when new controller instance is created, it becomes PVController
     {
         MVController = this;
+    }
+    @FXML
+    public void openFullMapView(){
+        Main.mainStage.setScene(Main.fullMapView);
+        FullMapViewController.FMVController.paintPath(currentPath);
     }
 }

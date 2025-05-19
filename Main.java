@@ -10,13 +10,15 @@ import java.io.IOException;
 public class Main extends Application
 {
 	public static Stage mainStage;
-	public static Scene mapView;
+	public static Scene mapView, fullMapView;
 	@Override
 	public void start(Stage stage) throws IOException
 	{
 		mainStage = stage;
 		FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("mapView.fxml")); // to be duplicated for each scene
 		mapView = new Scene(fxmlLoader.load());
+		fxmlLoader = new FXMLLoader(Main.class.getResource("fullMapView.fxml"));
+		fullMapView = new Scene(fxmlLoader.load());
 		// another view may be added
 		stage.setTitle("Route Finder");
 		stage.setScene(mapView);
