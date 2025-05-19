@@ -1,12 +1,16 @@
 package com.ca2.routefinder;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+
+import java.io.IOException;
 
 public class MapViewController
 {// controller:fx of mapView.fxml
@@ -82,7 +86,7 @@ public class MapViewController
         MVController = this;
     }
     @FXML
-    public void openFullMapView(){
+    public void openFullMapView() throws IOException{
         Main.mainStage.setScene(Main.fullMapView);
         FullMapViewController.FMVController.paintPath(currentPath);
     }
